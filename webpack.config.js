@@ -34,20 +34,28 @@ module.exports = {
     ]
   },
 
+  devServer: {
+    contentBase: path.resolve(__dirname, 'build'),
+  },
+
   plugins: [
-    new webpack.DefinePlugin({
-      'CANVAS_RENDERER': JSON.stringify(true),
-      'WEBGL_RENDERER': JSON.stringify(true)
-    }),
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, 'index.html'),
         to: path.resolve(__dirname, 'build')
+      },
+      {
+        from: path.resolve(__dirname, 'assets', '**', '*'),
+        to: path.resolve(__dirname, 'build')
       }
     ]),
+    new webpack.DefinePlugin({
+      'CANVAS_RENDERER': JSON.stringify(true),
+      'WEBGL_RENDERER': JSON.stringify(true)
+    }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'production-dependencies',
       filename: 'production-dependencies.bundle.js'
     }),
-  ]
+  ],
 }
